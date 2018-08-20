@@ -1,3 +1,5 @@
+/* eslint no-inline-comments: 0 */
+
 /**
  *
  *  Web Starter Kit
@@ -110,21 +112,22 @@ gulp.task('scripts', () =>
       // Note: Since we are not using useref in the scripts build pipeline,
       //       you need to explicitly list your scripts here in the right order
       //       to be correctly concatenated
-      './app/scripts/main.js'
+      './app/scripts/main.js',
+      './app/scripts/james.js'
       // Other scripts
     ])
       .pipe($.newer('.tmp/scripts'))
-      .pipe($.sourcemaps.init())
-      .pipe($.babel())
-      .pipe($.sourcemaps.write())
-      .pipe(gulp.dest('.tmp/scripts'))
-      .pipe($.concat('main.min.js'))
-      .pipe($.uglify({preserveComments: 'some'}))
+      .pipe($.sourcemaps.init())        // start sourcemaps
+      .pipe($.babel())                  // transform scripts to ES5
+      .pipe($.sourcemaps.write())       // write sourcemaps inline
+      .pipe(gulp.dest('.tmp/scripts'))  // output individual files to .tmp/scripts
+      .pipe($.concat('main.min.js'))    // concat scripts
+      .pipe($.uglify({preserveComments: 'some'})) // minify script
       // Output files
       .pipe($.size({title: 'scripts'}))
-      .pipe($.sourcemaps.write('.'))
-      .pipe(gulp.dest('dist/scripts'))
-      .pipe(gulp.dest('.tmp/scripts'))
+      .pipe($.sourcemaps.write('.'))    // set sourcemaps to output as file
+      .pipe(gulp.dest('.tmp/scripts'))  // output minified script & sourcemaps to /.tmp
+      .pipe(gulp.dest('dist/scripts'))  // output minified script & sourcemaps to /dist
 );
 
 // Scan your HTML for assets & optimize them
